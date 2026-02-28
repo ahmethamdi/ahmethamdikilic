@@ -1,0 +1,83 @@
+---
+import { getLangFromUrl, useTranslations } from '../../i18n/utils';
+
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+
+const stats = [
+  { value: 5, suffix: '+', label: t('about.experience') },
+  { value: 50, suffix: '+', label: t('about.projects') },
+  { value: 30, suffix: '+', label: t('about.clients') },
+  { value: 99, suffix: '%', label: t('about.satisfaction') },
+];
+---
+
+<section id="about" class="relative py-24 sm:py-32">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+      <!-- Left: Image -->
+      <div class="relative reveal-left">
+        <div class="relative aspect-square max-w-md mx-auto lg:mx-0">
+          <!-- Decorative border -->
+          <div class="absolute -inset-4 border border-lime/20 rounded-2xl"></div>
+          <div class="absolute -inset-8 border border-lime/10 rounded-3xl"></div>
+
+          <!-- Image container -->
+          <div class="relative w-full h-full rounded-xl overflow-hidden bg-dark-700">
+            <img
+              src="/images/profile.jpg"
+              alt="Ahmet Hamdi Kılıç - Shopify Developer"
+              class="w-full h-full object-cover"
+              loading="lazy"
+              onerror="this.style.display='none'; this.parentElement.innerHTML='<div class=\'w-full h-full flex items-center justify-center bg-dark-700\'><div class=\'w-32 h-32 bg-lime rounded-2xl flex items-center justify-center\'><span class=\'text-black font-heading font-bold text-5xl\'>AHK</span></div></div>'"
+            />
+          </div>
+
+          <!-- Floating badge -->
+          <div class="absolute -bottom-4 -right-4 bg-dark-800 border border-dark-500 rounded-xl px-4 py-3 flex items-center gap-3">
+            <div class="w-10 h-10 bg-shopify/20 rounded-lg flex items-center justify-center">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="#96BF48">
+                <path d="M15.337 23.979l7.216-1.561s-2.604-17.613-2.625-17.73c-.018-.116-.114-.2-.214-.213-.101-.013-2.008-.031-2.008-.031s-1.404-1.373-1.583-1.534c-.045-.041-.1-.063-.157-.07l-.002 0v.001L15.337 23.979zM12.793 8.144c-.077 0-.249.077-.249.077s-.262-.689-.725-.689c-.026 0-.053.002-.08.005-.11-.131-.246-.197-.37-.197-.913 0-1.352 1.146-1.488 1.729-.354.116-.606.198-.636.208-.198.063-.205.069-.231.258-.019.146-1.361 10.491-1.361 10.491l6.094 1.155V8.088c-.174.018-.525.046-.953.056zm-1.642-.47c0 .025 0 .058-.002.095-.233.075-.488.158-.756.244.146-.562.419-.834.634-.938.051.115.107.319.124.599zm-.633-.645c.042 0 .083.014.121.042-.299.14-.621.496-.758 1.207-.208.068-.412.134-.6.195.167-.554.534-1.444 1.237-1.444z"/>
+              </svg>
+            </div>
+            <div>
+              <p class="text-xs text-gray-500">Shopify</p>
+              <p class="text-sm font-semibold text-white">Partner</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Right: Content -->
+      <div class="reveal-right">
+        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-lime/10 border border-lime/20 mb-6">
+          <span class="w-1.5 h-1.5 bg-lime rounded-full"></span>
+          <span class="text-xs font-medium text-lime uppercase tracking-wider">{t('about.tag')}</span>
+        </div>
+
+        <h2 class="font-heading font-bold text-3xl sm:text-4xl lg:text-5xl text-white mb-6 leading-tight">
+          {t('about.title')}
+        </h2>
+
+        <p class="text-gray-300 leading-relaxed mb-4">
+          {t('about.description')}
+        </p>
+        <p class="text-gray-300 leading-relaxed mb-10">
+          {t('about.description2')}
+        </p>
+
+        <!-- Stats -->
+        <div class="grid grid-cols-2 sm:grid-cols-4 gap-6">
+          {stats.map(({ value, suffix, label }) => (
+            <div class="text-center p-4 rounded-xl bg-dark-800 border border-dark-600 hover:border-lime/30 transition-colors duration-300">
+              <div class="font-heading font-bold text-3xl text-lime mb-1">
+                <span class="counter" data-target={value} data-suffix={suffix}>0{suffix}</span>
+              </div>
+              <p class="text-xs text-gray-400">{label}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

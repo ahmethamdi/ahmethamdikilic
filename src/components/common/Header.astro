@@ -1,0 +1,138 @@
+---
+import { getLangFromUrl, useTranslations, getLocalizedPath } from '../../i18n/utils';
+import LanguageSwitcher from './LanguageSwitcher.astro';
+
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+
+const navItems = [
+  { key: 'nav.home' as const, href: '#hero' },
+  { key: 'nav.about' as const, href: '#about' },
+  { key: 'nav.services' as const, href: '#services' },
+  { key: 'nav.portfolio' as const, href: '#portfolio' },
+  { key: 'nav.skills' as const, href: '#skills' },
+  { key: 'nav.testimonials' as const, href: '#testimonials' },
+  { key: 'nav.contact' as const, href: '#contact' },
+];
+---
+
+<header
+  class="fixed top-0 left-0 w-full z-50 transition-all duration-500"
+  id="main-header"
+>
+  <div class="absolute inset-0 bg-dark-900/0 backdrop-blur-0 transition-all duration-500 header-bg"></div>
+  <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="flex items-center justify-between h-20">
+      <!-- Logo -->
+      <a href={getLocalizedPath(lang, '/')} class="flex items-center gap-3 group">
+        <div class="w-10 h-10 bg-lime rounded-lg flex items-center justify-center transition-transform duration-300 group-hover:scale-110">
+          <span class="text-black font-heading font-bold text-lg">AHK</span>
+        </div>
+      </a>
+
+      <!-- Desktop Nav -->
+      <nav class="hidden lg:flex items-center gap-8" aria-label="Main navigation">
+        {navItems.map(({ key, href }) => (
+          <a
+            href={href}
+            class="text-sm text-gray-300 hover:text-lime transition-colors duration-300 relative after:absolute after:bottom-[-4px] after:left-0 after:w-0 after:h-[2px] after:bg-lime after:transition-all after:duration-300 hover:after:w-full"
+          >
+            {t(key)}
+          </a>
+        ))}
+      </nav>
+
+      <!-- Right side -->
+      <div class="flex items-center gap-4">
+        <LanguageSwitcher />
+        <a
+          href="#contact"
+          class="hidden sm:inline-flex items-center px-5 py-2.5 bg-lime text-black font-heading font-semibold text-sm rounded-full hover:bg-lime-light transition-all duration-300 hover:scale-105"
+        >
+          {t('nav.cta')}
+        </a>
+
+        <!-- Mobile menu button -->
+        <button
+          class="lg:hidden flex flex-col gap-1.5 p-2"
+          id="mobile-menu-btn"
+          aria-label="Toggle menu"
+        >
+          <span class="w-6 h-0.5 bg-white transition-all duration-300 origin-center menu-line-1"></span>
+          <span class="w-6 h-0.5 bg-white transition-all duration-300 menu-line-2"></span>
+          <span class="w-4 h-0.5 bg-white transition-all duration-300 origin-center menu-line-3"></span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Mobile Menu -->
+  <div
+    class="lg:hidden fixed inset-0 bg-dark-900/98 backdrop-blur-xl z-40 flex flex-col items-center justify-center gap-8 opacity-0 pointer-events-none transition-all duration-500"
+    id="mobile-menu"
+  >
+    {navItems.map(({ key, href }) => (
+      <a
+        href={href}
+        class="text-2xl font-heading font-semibold text-white hover:text-lime transition-colors duration-300 mobile-nav-link"
+      >
+        {t(key)}
+      </a>
+    ))}
+    <a
+      href="#contact"
+      class="mt-4 px-8 py-3 bg-lime text-black font-heading font-semibold rounded-full hover:bg-lime-light transition-all duration-300"
+    >
+      {t('nav.cta')}
+    </a>
+  </div>
+</header>
+
+<style>
+  .header-scrolled .header-bg {
+    background-color: rgba(10, 10, 10, 0.9);
+    backdrop-filter: blur(20px);
+  }
+  .header-scrolled {
+    box-shadow: 0 1px 0 rgba(200, 217, 38, 0.1);
+  }
+  .mobile-open .menu-line-1 {
+    transform: rotate(45deg) translate(3px, 3px);
+  }
+  .mobile-open .menu-line-2 {
+    opacity: 0;
+  }
+  .mobile-open .menu-line-3 {
+    width: 1.5rem;
+    transform: rotate(-45deg) translate(3px, -3px);
+  }
+</style>
+
+<script>
+  const btn = document.getElementById('mobile-menu-btn');
+  const menu = document.getElementById('mobile-menu');
+  const header = document.getElementById('main-header');
+  const links = menu?.querySelectorAll('a');
+
+  btn?.addEventListener('click', () => {
+    header?.classList.toggle('mobile-open');
+    if (menu?.classList.contains('opacity-0')) {
+      menu.classList.remove('opacity-0', 'pointer-events-none');
+      menu.classList.add('opacity-100', 'pointer-events-auto');
+      document.body.style.overflow = 'hidden';
+    } else {
+      menu?.classList.add('opacity-0', 'pointer-events-none');
+      menu?.classList.remove('opacity-100', 'pointer-events-auto');
+      document.body.style.overflow = '';
+    }
+  });
+
+  links?.forEach((link) => {
+    link.addEventListener('click', () => {
+      header?.classList.remove('mobile-open');
+      menu?.classList.add('opacity-0', 'pointer-events-none');
+      menu?.classList.remove('opacity-100', 'pointer-events-auto');
+      document.body.style.overflow = '';
+    });
+  });
+</script>
