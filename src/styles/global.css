@@ -221,3 +221,96 @@ section[id] { scroll-margin-top: 80px; }
   line-height: 1;
   font-family: var(--font-heading);
 }
+
+/* ═══════════════════════════════════════════
+   FLOATING ORB ANIMATIONS
+   ═══════════════════════════════════════════ */
+@keyframes float-slow {
+  0%, 100% { transform: translateY(0) translateX(0); }
+  25% { transform: translateY(-20px) translateX(10px); }
+  50% { transform: translateY(-10px) translateX(-15px); }
+  75% { transform: translateY(-25px) translateX(5px); }
+}
+@keyframes float-delayed {
+  0%, 100% { transform: translateY(0) translateX(0); }
+  33% { transform: translateY(-15px) translateX(-10px); }
+  66% { transform: translateY(-5px) translateX(20px); }
+}
+.animate-float-slow { animation: float-slow 8s ease-in-out infinite; }
+.animate-float-delayed { animation: float-delayed 10s ease-in-out infinite 2s; }
+
+/* ═══════════════════════════════════════════
+   LINE CLAMP
+   ═══════════════════════════════════════════ */
+.line-clamp-3 {
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+.line-clamp-2 {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* ═══════════════════════════════════════════
+   CARD HOVER GLOW
+   ═══════════════════════════════════════════ */
+.card-glow {
+  position: relative;
+}
+.card-glow::before {
+  content: '';
+  position: absolute;
+  inset: -1px;
+  border-radius: inherit;
+  background: linear-gradient(135deg, transparent 40%, rgba(200,217,38,0.15) 50%, transparent 60%);
+  opacity: 0;
+  transition: opacity 0.5s ease;
+  z-index: -1;
+}
+.card-glow:hover::before {
+  opacity: 1;
+}
+
+/* ═══════════════════════════════════════════
+   BLOG CARD
+   ═══════════════════════════════════════════ */
+.blog-card {
+  transition: all 0.5s cubic-bezier(0.4, 0, 0, 1);
+}
+.blog-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 20px 60px rgba(200, 217, 38, 0.06);
+}
+
+/* ═══════════════════════════════════════════
+   PARALLAX TEXT
+   ═══════════════════════════════════════════ */
+.parallax-text {
+  will-change: transform;
+  transition: transform 0.1s linear;
+}
+
+/* ═══════════════════════════════════════════
+   GRADIENT BORDER
+   ═══════════════════════════════════════════ */
+.gradient-border {
+  position: relative;
+  background: var(--color-dark-800);
+  border-radius: 1.5rem;
+}
+.gradient-border::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  padding: 1px;
+  background: linear-gradient(135deg, rgba(200,217,38,0.3), transparent, rgba(200,217,38,0.1));
+  mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  mask-composite: exclude;
+  -webkit-mask-composite: xor;
+}
