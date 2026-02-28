@@ -8,7 +8,6 @@ interface Props {
   title?: string;
   description?: string;
   keywords?: string;
-  ogImage?: string;
 }
 
 const lang = getLangFromUrl(Astro.url);
@@ -16,20 +15,13 @@ const t = useTranslations(lang);
 const alternateLinks = getAlternateLinks(Astro.url.pathname);
 
 const {
-  title = t('meta.title'),
-  description = t('meta.description'),
+  title = t('meta.home.title'),
+  description = t('meta.home.description'),
   keywords = t('meta.keywords'),
-  ogImage = '/images/og-image.jpg',
 } = Astro.props;
 
 const canonicalUrl = new URL(Astro.url.pathname, Astro.site);
-const ogImageUrl = new URL(ogImage, Astro.site);
-
-const localeMap: Record<string, string> = {
-  en: 'en_US',
-  tr: 'tr_TR',
-  de: 'de_DE',
-};
+const localeMap: Record<string, string> = { en: 'en_US', tr: 'tr_TR', de: 'de_DE' };
 ---
 
 <!doctype html>
@@ -37,9 +29,6 @@ const localeMap: Record<string, string> = {
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-
-    <!-- Primary Meta -->
     <title>{title}</title>
     <meta name="description" content={description} />
     <meta name="keywords" content={keywords} />
@@ -47,45 +36,26 @@ const localeMap: Record<string, string> = {
     <meta name="generator" content={Astro.generator} />
     <link rel="canonical" href={canonicalUrl.href} />
 
-    <!-- Alternate Languages -->
     {alternateLinks.map(({ lang: altLang, href }) => (
       <link rel="alternate" hreflang={altLang} href={new URL(href, Astro.site).href} />
     ))}
     <link rel="alternate" hreflang="x-default" href={new URL('/en/', Astro.site).href} />
 
-    <!-- Open Graph -->
     <meta property="og:type" content="website" />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
-    <meta property="og:image" content={ogImageUrl.href} />
     <meta property="og:url" content={canonicalUrl.href} />
     <meta property="og:site_name" content="AHK - Shopify Developer" />
     <meta property="og:locale" content={localeMap[lang]} />
-    {alternateLinks
-      .filter(({ lang: altLang }) => altLang !== lang)
-      .map(({ lang: altLang }) => (
-        <meta property="og:locale:alternate" content={localeMap[altLang]} />
-      ))}
-
-    <!-- Twitter Card -->
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content={title} />
     <meta name="twitter:description" content={description} />
-    <meta name="twitter:image" content={ogImageUrl.href} />
 
-    <!-- Favicon -->
     <link rel="icon" type="image/png" href="/images/ahk-logo.png" />
-    <link rel="apple-touch-icon" href="/images/ahk-logo.png" />
-
-    <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap"
-      rel="stylesheet"
-    />
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
 
-    <!-- Structured Data -->
     <script type="application/ld+json" set:html={JSON.stringify({
       "@context": "https://schema.org",
       "@graph": [
@@ -95,29 +65,22 @@ const localeMap: Record<string, string> = {
           "name": "AHK - Shopify Development",
           "url": Astro.site?.href,
           "logo": new URL('/images/ahk-logo.png', Astro.site).href,
-          "description": description,
           "founder": { "@id": `${Astro.site}#person` },
           "areaServed": ["TR", "DE", "US", "GB"],
-          "serviceType": [
-            "Shopify Store Development",
-            "Shopify Theme Customization",
-            "Shopify App Development",
-            "E-commerce Consulting",
-          ],
+          "serviceType": ["Shopify Store Development", "Shopify App Development", "E-commerce Integration", "Platform Migration"],
           "knowsLanguage": ["tr", "en", "de"],
+          "sameAs": ["https://github.com/ahmethamdi", "https://www.linkedin.com/in/ahmet-hamdi-kilic/", "https://x.com/kaleciolmam"],
         },
         {
           "@type": "Person",
           "@id": `${Astro.site}#person`,
           "name": "Ahmet Hamdi Kılıç",
-          "jobTitle": "Shopify Developer",
+          "jobTitle": "Senior Shopify Developer",
           "url": Astro.site?.href,
-          "image": new URL('/images/profile.jpg', Astro.site).href,
-          "knowsAbout": [
-            "Shopify", "Liquid", "JavaScript", "React",
-            "Node.js", "E-commerce", "Web Development",
-          ],
+          "address": { "@type": "PostalAddress", "addressLocality": "Korschenbroich", "addressCountry": "DE" },
+          "knowsAbout": ["Shopify", "Liquid", "JavaScript", "React", "Node.js", "Plentymarkets", "Shopware"],
           "knowsLanguage": ["tr", "en", "de"],
+          "sameAs": ["https://github.com/ahmethamdi", "https://www.linkedin.com/in/ahmet-hamdi-kilic/"],
         },
         {
           "@type": "WebSite",
@@ -130,106 +93,58 @@ const localeMap: Record<string, string> = {
       ],
     })} />
   </head>
-  <body class="bg-dark-900 text-white font-body antialiased overflow-x-hidden">
+  <body class="bg-dark-900 text-white font-body antialiased overflow-x-hidden noise-bg">
+    <div class="page-transition fixed inset-0 bg-lime z-[100] pointer-events-none" id="page-transition"></div>
     <Header />
-    <main>
-      <slot />
-    </main>
+    <main><slot /></main>
     <Footer />
 
-    <!-- GSAP -->
     <script>
       import { gsap } from 'gsap';
       import { ScrollTrigger } from 'gsap/ScrollTrigger';
-
       gsap.registerPlugin(ScrollTrigger);
 
-      // Reveal animations
-      const revealElements = document.querySelectorAll('.reveal-up, .reveal-left, .reveal-right, .reveal-scale');
+      // Page enter
+      const tr = document.getElementById('page-transition');
+      if (tr) gsap.fromTo(tr, { scaleY: 1 }, { scaleY: 0, duration: 0.8, ease: 'power4.inOut', transformOrigin: 'top', delay: 0.1 });
 
-      revealElements.forEach((el) => {
-        gsap.to(el, {
-          opacity: 1,
-          x: 0,
-          y: 0,
-          scale: 1,
-          duration: 1,
-          ease: 'power3.out',
-          scrollTrigger: {
-            trigger: el,
-            start: 'top 85%',
-            toggleActions: 'play none none none',
-          },
-        });
+      // Reveals
+      document.querySelectorAll('.reveal-up, .reveal-left, .reveal-right, .reveal-scale, .reveal-rotate').forEach((el) => {
+        gsap.to(el, { opacity: 1, x: 0, y: 0, scale: 1, rotation: 0, duration: 1, ease: 'power3.out',
+          scrollTrigger: { trigger: el, start: 'top 88%', toggleActions: 'play none none none' } });
       });
 
-      // Staggered card reveals
-      document.querySelectorAll('.stagger-container').forEach((container) => {
-        const cards = container.querySelectorAll('.stagger-item');
-        gsap.from(cards, {
-          y: 60,
-          opacity: 0,
-          duration: 0.8,
-          stagger: 0.15,
-          ease: 'power3.out',
-          scrollTrigger: {
-            trigger: container,
-            start: 'top 80%',
-            toggleActions: 'play none none none',
-          },
-        });
+      // Stagger
+      document.querySelectorAll('.stagger-container').forEach((c) => {
+        gsap.from(c.querySelectorAll('.stagger-item'), { y: 60, opacity: 0, duration: 0.8, stagger: 0.12, ease: 'power3.out',
+          scrollTrigger: { trigger: c, start: 'top 80%', toggleActions: 'play none none none' } });
       });
 
-      // Counter animation
+      // Counters
       document.querySelectorAll('.counter').forEach((el) => {
         const target = parseInt(el.getAttribute('data-target') || '0');
         const suffix = el.getAttribute('data-suffix') || '';
-        ScrollTrigger.create({
-          trigger: el,
-          start: 'top 90%',
-          onEnter: () => {
-            gsap.to({ val: 0 }, {
-              val: target,
-              duration: 2,
-              ease: 'power2.out',
-              onUpdate: function () {
-                (el as HTMLElement).textContent = Math.round(this.targets()[0].val) + suffix;
-              },
-            });
-          },
-          once: true,
-        });
+        ScrollTrigger.create({ trigger: el, start: 'top 90%', once: true,
+          onEnter: () => { gsap.to({ val: 0 }, { val: target, duration: 2, ease: 'power2.out',
+            onUpdate: function() { (el as HTMLElement).textContent = Math.round(this.targets()[0].val) + suffix; } }); } });
       });
 
-      // Smooth scroll for anchor links
-      document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
-        anchor.addEventListener('click', (e) => {
-          e.preventDefault();
-          const href = (anchor as HTMLAnchorElement).getAttribute('href');
-          if (href) {
-            const target = document.querySelector(href);
-            if (target) {
-              target.scrollIntoView({ behavior: 'smooth' });
-            }
-          }
-        });
-      });
-
-      // Header scroll effect
+      // Header scroll
       const header = document.querySelector('header');
-      if (header) {
-        ScrollTrigger.create({
-          start: 'top -80',
-          onUpdate: (self) => {
-            if (self.direction === 1) {
-              header.classList.add('header-scrolled');
-            }
-            if (self.scroll() < 80) {
-              header.classList.remove('header-scrolled');
-            }
-          },
+      if (header) ScrollTrigger.create({ start: 'top -80',
+        onUpdate: (s) => { if (s.direction === 1) header.classList.add('header-scrolled'); if (s.scroll() < 80) header.classList.remove('header-scrolled'); } });
+
+      // Page transitions
+      document.querySelectorAll('a[href^="/"]').forEach((link) => {
+        link.addEventListener('click', (e) => {
+          const href = (link as HTMLAnchorElement).getAttribute('href');
+          if (!href || href === window.location.pathname) return;
+          e.preventDefault();
+          const t = document.getElementById('page-transition');
+          if (t) gsap.fromTo(t, { scaleY: 0 }, { scaleY: 1, duration: 0.5, ease: 'power4.inOut', transformOrigin: 'bottom', onComplete: () => { window.location.href = href; } });
+          else window.location.href = href!;
         });
-      }
+      });
     </script>
   </body>
 </html>

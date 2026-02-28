@@ -1,0 +1,110 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { getLangFromUrl, useTranslations, getLocalizedPath } from '../../i18n/utils';
+import { projects } from '../../data/projects';
+
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+---
+
+<BaseLayout title={t('meta.portfolio.title')} description={t('meta.portfolio.description')}>
+
+  <!-- Hero -->
+  <section class="relative pt-32 pb-20 sm:pt-40 sm:pb-28 overflow-hidden">
+    <div class="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_rgba(200,217,38,0.06)_0%,_transparent_50%)]"></div>
+    <div class="relative z-10 max-w-[1400px] mx-auto px-6 sm:px-8 lg:px-12">
+      <div class="flex items-center gap-3 mb-6 reveal-up">
+        <div class="w-12 h-[2px] bg-lime"></div>
+        <span class="text-[13px] uppercase tracking-[0.3em] text-lime font-medium">{t('portfolio.tag')}</span>
+      </div>
+      <h1 class="font-heading text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-bold text-white leading-[0.95] mb-8 reveal-up">{t('portfolio.title')}</h1>
+      <p class="max-w-2xl text-lg text-gray-300 leading-relaxed reveal-up">{t('portfolio.subtitle')}</p>
+    </div>
+  </section>
+
+  <!-- Projects -->
+  <section class="py-20 sm:py-28">
+    <div class="max-w-[1400px] mx-auto px-6 sm:px-8 lg:px-12">
+      <div class="space-y-12 stagger-container">
+        {projects.map((project, index) => (
+          <div class="stagger-item group rounded-3xl bg-dark-800 border border-dark-700 hover:border-lime/30 transition-all duration-500 overflow-hidden">
+            <div class="grid lg:grid-cols-12 gap-0">
+              <!-- Number + Tags side -->
+              <div class="lg:col-span-3 p-8 sm:p-10 lg:p-12 flex flex-col justify-between bg-dark-800 relative overflow-hidden">
+                <div class="absolute inset-0 bg-gradient-to-br from-lime/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                <div class="relative z-10">
+                  <span class="font-heading text-8xl sm:text-9xl font-bold text-dark-700 group-hover:text-lime/20 transition-colors leading-none select-none block">
+                    {String(index + 1).padStart(2, '0')}
+                  </span>
+                </div>
+                <div class="relative z-10 mt-6 lg:mt-0">
+                  <div class="flex flex-wrap gap-2">
+                    {project.tags.map((tag) => (
+                      <span class="px-3 py-1.5 text-xs font-medium bg-dark-900/80 text-lime rounded-lg border border-lime/10">{tag}</span>
+                    ))}
+                  </div>
+                </div>
+              </div>
+
+              <!-- Content side -->
+              <div class="lg:col-span-9 p-8 sm:p-10 lg:p-12 border-t lg:border-t-0 lg:border-l border-dark-700">
+                <h3 class="font-heading text-2xl sm:text-3xl lg:text-4xl font-bold text-white mb-4 group-hover:text-lime transition-colors leading-tight">
+                  {project.title[lang]}
+                </h3>
+                <p class="text-gray-300 leading-relaxed mb-8 text-lg max-w-3xl">{project.description[lang]}</p>
+
+                <div class="grid md:grid-cols-2 gap-8">
+                  <!-- Highlights -->
+                  <div>
+                    <h4 class="font-heading text-xs uppercase tracking-[0.2em] text-lime mb-4 font-semibold">{t('portfolio.highlights')}</h4>
+                    <ul class="space-y-3">
+                      {project.highlights[lang].map((highlight) => (
+                        <li class="flex items-start gap-2.5 text-sm text-gray-300">
+                          <svg class="w-4 h-4 text-lime shrink-0 mt-0.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5"/></svg>
+                          {highlight}
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+
+                  <!-- Tech Stack -->
+                  <div>
+                    <h4 class="font-heading text-xs uppercase tracking-[0.2em] text-lime mb-4 font-semibold">{t('portfolio.tech')}</h4>
+                    <div class="flex flex-wrap gap-2">
+                      {project.tech.map((tech) => (
+                        <span class="px-4 py-2 text-sm font-medium text-gray-300 bg-dark-900 border border-dark-700 rounded-xl">{tech}</span>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="py-28 sm:py-36 border-t border-dark-700">
+    <div class="max-w-[1400px] mx-auto px-6 sm:px-8 lg:px-12">
+      <div class="grid lg:grid-cols-2 gap-12 items-center">
+        <div class="reveal-up">
+          <div class="flex items-center gap-3 mb-4">
+            <div class="w-12 h-[2px] bg-lime"></div>
+            <span class="text-[13px] uppercase tracking-[0.3em] text-lime font-medium">{t('contact.tag')}</span>
+          </div>
+          <h2 class="font-heading text-4xl sm:text-5xl md:text-6xl font-bold text-white leading-[0.95]">{t('contact.title')}</h2>
+        </div>
+        <div class="reveal-up">
+          <p class="text-gray-300 text-lg leading-relaxed mb-8">{t('contact.subtitle')}</p>
+          <a href={getLocalizedPath(lang, '/contact/')} class="group inline-flex items-center gap-2 px-10 py-5 bg-lime text-dark-900 font-semibold rounded-xl hover:bg-lime-light transition-all duration-300 hover:shadow-[0_0_40px_rgba(200,217,38,0.3)] text-lg">
+            <span>{t('hero.cta.secondary')}</span>
+            <svg class="w-5 h-5 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</BaseLayout>

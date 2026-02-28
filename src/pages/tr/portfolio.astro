@@ -1,0 +1,126 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { getLangFromUrl, useTranslations, getLocalizedPath } from '../../i18n/utils';
+import { projects } from '../../data/projects';
+
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+---
+
+<BaseLayout title={t('meta.portfolio.title')} description={t('meta.portfolio.description')}>
+
+  <!-- ════════════════════════════════════════════════════════════════════
+       HERO BANNER
+       ════════════════════════════════════════════════════════════════════ -->
+  <section class="relative pt-32 pb-20 sm:pt-40 sm:pb-24 overflow-hidden">
+    <div class="absolute inset-0 pointer-events-none">
+      <div class="absolute top-1/4 -right-32 w-96 h-96 bg-lime/5 rounded-full blur-3xl"></div>
+      <div class="absolute bottom-0 -left-32 w-96 h-96 bg-lime/3 rounded-full blur-3xl"></div>
+      <div class="absolute inset-0 bg-[linear-gradient(rgba(200,217,38,0.03)_1px,transparent_1px),linear-gradient(90deg,rgba(200,217,38,0.03)_1px,transparent_1px)] bg-[size:4rem_4rem]"></div>
+    </div>
+
+    <div class="relative z-10 max-w-7xl mx-auto px-6 sm:px-8 text-center">
+      <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-lime/10 border border-lime/20 mb-6 reveal-scale">
+        <span class="w-1.5 h-1.5 bg-lime rounded-full"></span>
+        <span class="text-xs font-medium text-lime uppercase tracking-wider">{t('portfolio.tag')}</span>
+      </div>
+      <h1 class="font-heading text-4xl sm:text-5xl md:text-6xl font-bold mb-6 reveal-up">
+        <span class="bg-gradient-to-r from-white to-gray-300 bg-clip-text text-transparent">{t('portfolio.title')}</span>
+      </h1>
+      <p class="max-w-2xl mx-auto text-gray-300 text-lg reveal-up">{t('portfolio.subtitle')}</p>
+    </div>
+  </section>
+
+  <!-- ════════════════════════════════════════════════════════════════════
+       PROJECTS
+       ════════════════════════════════════════════════════════════════════ -->
+  <section class="py-24 sm:py-32">
+    <div class="max-w-7xl mx-auto px-6 sm:px-8">
+      <div class="space-y-16 stagger-container">
+        {projects.map((project, index) => (
+          <div class="stagger-item group rounded-3xl bg-dark-800 border border-dark-600 hover:border-lime/30 transition-all duration-500 overflow-hidden">
+            <div class={`grid lg:grid-cols-2 gap-0 ${index % 2 === 1 ? 'lg:grid-flow-dense' : ''}`}>
+              <!-- Image side -->
+              <div class={`relative h-64 lg:h-auto min-h-[320px] bg-dark-700 overflow-hidden ${index % 2 === 1 ? 'lg:col-start-2' : ''}`}>
+                <div class="absolute inset-0 bg-gradient-to-br from-lime/10 via-transparent to-lime/5"></div>
+                <div class="absolute inset-0 flex items-center justify-center">
+                  <svg class="w-20 h-20 text-dark-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M2.25 15.75l5.159-5.159a2.25 2.25 0 013.182 0l5.159 5.159m-1.5-1.5l1.409-1.409a2.25 2.25 0 013.182 0l2.909 2.909M3.75 21h16.5A2.25 2.25 0 0022.5 18.75V5.25A2.25 2.25 0 0020.25 3H3.75A2.25 2.25 0 001.5 5.25v13.5A2.25 2.25 0 003.75 21z"/></svg>
+                </div>
+
+                <!-- Tags overlay -->
+                <div class="absolute top-6 left-6 flex flex-wrap gap-2">
+                  {project.tags.map((tag) => (
+                    <span class="px-3 py-1 text-xs font-medium bg-dark-900/80 text-lime rounded-lg backdrop-blur-sm border border-lime/10">{tag}</span>
+                  ))}
+                </div>
+
+                <!-- Project number -->
+                <div class="absolute bottom-6 right-6 text-7xl font-bold font-heading text-white/5 select-none">
+                  {String(index + 1).padStart(2, '0')}
+                </div>
+              </div>
+
+              <!-- Content side -->
+              <div class="p-8 sm:p-10 lg:p-12 flex flex-col justify-center">
+                <h3 class="font-heading text-2xl sm:text-3xl font-bold text-white mb-4 group-hover:text-lime transition-colors">
+                  {project.title[lang]}
+                </h3>
+
+                <p class="text-gray-300 leading-relaxed mb-6">{project.description[lang]}</p>
+
+                <!-- Highlights -->
+                <div class="mb-6">
+                  <h4 class="text-sm font-semibold text-lime uppercase tracking-wider mb-3">{t('portfolio.highlights')}</h4>
+                  <ul class="space-y-2">
+                    {project.highlights[lang].map((highlight) => (
+                      <li class="flex items-start gap-2 text-sm text-gray-300">
+                        <svg class="w-4 h-4 text-lime mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4"/></svg>
+                        {highlight}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+
+                <!-- Tech stack -->
+                <div>
+                  <h4 class="text-sm font-semibold text-lime uppercase tracking-wider mb-3">{t('portfolio.tech')}</h4>
+                  <div class="flex flex-wrap gap-2">
+                    {project.tech.map((tech) => (
+                      <span class="px-3 py-1.5 text-xs font-medium text-gray-300 bg-dark-700 border border-dark-600 rounded-lg">{tech}</span>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- ════════════════════════════════════════════════════════════════════
+       BOTTOM CTA
+       ════════════════════════════════════════════════════════════════════ -->
+  <section class="py-24 sm:py-32 relative">
+    <div class="absolute inset-0 pointer-events-none">
+      <div class="absolute bottom-0 left-1/2 -translate-x-1/2 w-[800px] h-[400px] bg-lime/5 rounded-full blur-3xl"></div>
+    </div>
+
+    <div class="relative z-10 max-w-4xl mx-auto px-6 sm:px-8 text-center">
+      <div class="p-12 sm:p-16 rounded-3xl bg-dark-800 border border-dark-600 relative overflow-hidden reveal-up">
+        <div class="absolute top-0 left-0 w-24 h-24 border-t-2 border-l-2 border-lime/20 rounded-tl-3xl"></div>
+        <div class="absolute bottom-0 right-0 w-24 h-24 border-b-2 border-r-2 border-lime/20 rounded-br-3xl"></div>
+
+        <h2 class="font-heading text-3xl sm:text-4xl md:text-5xl font-bold mb-6">
+          <span class="bg-gradient-to-r from-white to-gray-300 bg-clip-text text-transparent">{t('contact.title')}</span>
+        </h2>
+        <p class="text-gray-300 mb-10 max-w-xl mx-auto text-lg">{t('contact.subtitle')}</p>
+        <a href={getLocalizedPath(lang, '/contact/')} class="group relative inline-flex items-center gap-2 px-10 py-5 bg-lime text-dark-900 font-semibold rounded-xl hover:bg-lime-light transition-all duration-300 hover:shadow-[0_0_40px_rgba(200,217,38,0.3)] text-lg">
+          <span>{t('hero.cta.secondary')}</span>
+          <svg class="w-5 h-5 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
+        </a>
+      </div>
+    </div>
+  </section>
+
+</BaseLayout>

@@ -1,0 +1,350 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { getLangFromUrl, useTranslations, getLocalizedPath } from '../../i18n/utils';
+import { skillGroups } from '../../data/skills';
+
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+
+const certificates = [
+  { key: 'cert.foundations' as const, image: '/images/certificates/foundations.jpg' },
+  { key: 'cert.checkout' as const, image: '/images/certificates/checkout.jpg' },
+  { key: 'cert.storefront' as const, image: '/images/certificates/storefront.jpg' },
+  { key: 'cert.liquid' as const, image: '/images/certificates/liquid.jpg' },
+  { key: 'cert.themes' as const, image: '/images/certificates/themes.jpg' },
+  { key: 'cert.marketing' as const, image: '/images/certificates/marketing.jpg' },
+];
+
+const spokenLanguages = [
+  { key: 'about.lang.turkish' as const, level: 100 },
+  { key: 'about.lang.english' as const, level: 65 },
+  { key: 'about.lang.german' as const, level: 55 },
+];
+---
+
+<BaseLayout title={t('meta.about.title')} description={t('meta.about.description')}>
+
+  <!-- ════════════════════════════════════════════════════════════════════
+       HERO BANNER
+       ════════════════════════════════════════════════════════════════════ -->
+  <section class="relative pt-32 pb-20 sm:pt-40 sm:pb-24 overflow-hidden">
+    <div class="absolute inset-0 pointer-events-none">
+      <div class="absolute top-1/3 -right-32 w-96 h-96 bg-lime/5 rounded-full blur-3xl"></div>
+      <div class="absolute inset-0 bg-[linear-gradient(rgba(200,217,38,0.03)_1px,transparent_1px),linear-gradient(90deg,rgba(200,217,38,0.03)_1px,transparent_1px)] bg-[size:4rem_4rem]"></div>
+    </div>
+
+    <div class="relative z-10 max-w-7xl mx-auto px-6 sm:px-8 text-center">
+      <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-lime/10 border border-lime/20 mb-6 reveal-scale">
+        <span class="w-1.5 h-1.5 bg-lime rounded-full"></span>
+        <span class="text-xs font-medium text-lime uppercase tracking-wider">{t('about.tag')}</span>
+      </div>
+      <h1 class="font-heading text-4xl sm:text-5xl md:text-6xl font-bold mb-6 reveal-up">
+        <span class="bg-gradient-to-r from-white to-gray-300 bg-clip-text text-transparent">{t('about.title')}</span>
+      </h1>
+      <p class="max-w-2xl mx-auto text-gray-300 text-lg reveal-up">{t('about.intro')}</p>
+    </div>
+  </section>
+
+  <!-- ════════════════════════════════════════════════════════════════════
+       BIO SECTION
+       ════════════════════════════════════════════════════════════════════ -->
+  <section class="py-24 sm:py-32">
+    <div class="max-w-7xl mx-auto px-6 sm:px-8">
+      <div class="grid lg:grid-cols-5 gap-12 lg:gap-16 items-center">
+        <!-- Profile photo placeholder -->
+        <div class="lg:col-span-2 reveal-left">
+          <div class="relative">
+            <div class="aspect-[3/4] rounded-2xl bg-dark-800 border border-dark-600 overflow-hidden relative">
+              <div class="absolute inset-0 bg-gradient-to-br from-lime/10 via-transparent to-lime/5"></div>
+              <div class="absolute inset-0 flex items-center justify-center">
+                <svg class="w-24 h-24 text-dark-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z"/></svg>
+              </div>
+            </div>
+            <!-- Decorative corner -->
+            <div class="absolute -bottom-4 -right-4 w-24 h-24 border-2 border-lime/20 rounded-2xl -z-10"></div>
+            <div class="absolute -top-4 -left-4 w-16 h-16 border-2 border-lime/10 rounded-xl -z-10"></div>
+          </div>
+        </div>
+
+        <!-- Bio content -->
+        <div class="lg:col-span-3 reveal-right">
+          <h2 class="font-heading text-2xl sm:text-3xl font-bold text-white mb-6">{t('hero.name')}</h2>
+          <p class="text-gray-300 leading-relaxed mb-6 text-lg">{t('about.intro')}</p>
+          <p class="text-gray-300 leading-relaxed mb-8">{t('about.description')}</p>
+
+          <!-- Quick stats -->
+          <div class="grid grid-cols-2 sm:grid-cols-4 gap-4">
+            <div class="p-4 rounded-xl bg-dark-800 border border-dark-600 text-center">
+              <div class="text-2xl font-bold text-lime font-heading">
+                <span class="counter" data-target="3" data-suffix="+">0</span>
+              </div>
+              <p class="text-xs text-gray-300 mt-1">{t('hero.stats.experience')}</p>
+            </div>
+            <div class="p-4 rounded-xl bg-dark-800 border border-dark-600 text-center">
+              <div class="text-2xl font-bold text-lime font-heading">
+                <span class="counter" data-target="50" data-suffix="+">0</span>
+              </div>
+              <p class="text-xs text-gray-300 mt-1">{t('hero.stats.projects')}</p>
+            </div>
+            <div class="p-4 rounded-xl bg-dark-800 border border-dark-600 text-center">
+              <div class="text-2xl font-bold text-lime font-heading">
+                <span class="counter" data-target="30" data-suffix="+">0</span>
+              </div>
+              <p class="text-xs text-gray-300 mt-1">{t('hero.stats.clients')}</p>
+            </div>
+            <div class="p-4 rounded-xl bg-dark-800 border border-dark-600 text-center">
+              <div class="text-2xl font-bold text-lime font-heading">
+                <span class="counter" data-target="3" data-suffix="">0</span>
+              </div>
+              <p class="text-xs text-gray-300 mt-1">{t('hero.stats.apps')}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ════════════════════════════════════════════════════════════════════
+       WORK EXPERIENCE TIMELINE
+       ════════════════════════════════════════════════════════════════════ -->
+  <section class="py-24 sm:py-32 relative">
+    <div class="absolute inset-0 pointer-events-none">
+      <div class="absolute top-1/2 left-0 w-96 h-96 bg-lime/3 rounded-full blur-3xl"></div>
+    </div>
+
+    <div class="relative z-10 max-w-5xl mx-auto px-6 sm:px-8">
+      <div class="text-center mb-16">
+        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-lime/10 border border-lime/20 mb-6 reveal-scale">
+          <span class="w-1.5 h-1.5 bg-lime rounded-full"></span>
+          <span class="text-xs font-medium text-lime uppercase tracking-wider">{t('about.experience.title')}</span>
+        </div>
+        <h2 class="font-heading text-3xl sm:text-4xl font-bold reveal-up">
+          <span class="bg-gradient-to-r from-white to-gray-300 bg-clip-text text-transparent">{t('about.experience.title')}</span>
+        </h2>
+      </div>
+
+      <!-- Timeline -->
+      <div class="relative">
+        <!-- Vertical line -->
+        <div class="absolute left-8 md:left-1/2 top-0 bottom-0 w-px bg-dark-600 md:-translate-x-px"></div>
+
+        <!-- Vapor Handel GmbH -->
+        <div class="relative mb-16 reveal-up">
+          <div class="flex items-start gap-8 md:gap-0">
+            <!-- Timeline dot -->
+            <div class="absolute left-8 md:left-1/2 w-4 h-4 bg-lime rounded-full -translate-x-1/2 mt-2 z-10 shadow-[0_0_20px_rgba(200,217,38,0.4)]"></div>
+
+            <!-- Content -->
+            <div class="ml-16 md:ml-0 md:w-1/2 md:pr-12">
+              <div class="p-8 rounded-2xl bg-dark-800 border border-dark-600 hover:border-lime/30 transition-all duration-500">
+                <div class="flex items-center gap-3 mb-4">
+                  <span class="px-3 py-1 text-xs font-medium bg-lime/10 text-lime rounded-full">{t('exp.vapor.period')}</span>
+                </div>
+                <h3 class="font-heading text-xl font-bold text-white mb-1">{t('exp.vapor.company')}</h3>
+                <p class="text-lime font-medium mb-2">{t('exp.vapor.role')}</p>
+                <p class="text-sm text-gray-300 italic mb-4">{t('exp.vapor.project')}</p>
+                <ul class="space-y-2">
+                  <li class="flex items-start gap-2 text-sm text-gray-300">
+                    <span class="w-1.5 h-1.5 bg-lime rounded-full mt-1.5 flex-shrink-0"></span>
+                    {t('exp.vapor.desc1')}
+                  </li>
+                  <li class="flex items-start gap-2 text-sm text-gray-300">
+                    <span class="w-1.5 h-1.5 bg-lime rounded-full mt-1.5 flex-shrink-0"></span>
+                    {t('exp.vapor.desc2')}
+                  </li>
+                  <li class="flex items-start gap-2 text-sm text-gray-300">
+                    <span class="w-1.5 h-1.5 bg-lime rounded-full mt-1.5 flex-shrink-0"></span>
+                    {t('exp.vapor.desc3')}
+                  </li>
+                  <li class="flex items-start gap-2 text-sm text-gray-300">
+                    <span class="w-1.5 h-1.5 bg-lime rounded-full mt-1.5 flex-shrink-0"></span>
+                    {t('exp.vapor.desc4')}
+                  </li>
+                  <li class="flex items-start gap-2 text-sm text-gray-300">
+                    <span class="w-1.5 h-1.5 bg-lime rounded-full mt-1.5 flex-shrink-0"></span>
+                    {t('exp.vapor.desc5')}
+                  </li>
+                </ul>
+                <div class="mt-4 pt-4 border-t border-dark-600">
+                  <p class="text-xs text-gray-500"><span class="text-lime">Tech:</span> {t('exp.vapor.tech')}</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- EZ Commerce -->
+        <div class="relative mb-16 reveal-up">
+          <div class="flex items-start gap-8 md:gap-0">
+            <div class="absolute left-8 md:left-1/2 w-4 h-4 bg-dark-500 border-2 border-lime rounded-full -translate-x-1/2 mt-2 z-10"></div>
+
+            <div class="ml-16 md:ml-auto md:w-1/2 md:pl-12">
+              <div class="p-8 rounded-2xl bg-dark-800 border border-dark-600 hover:border-lime/30 transition-all duration-500">
+                <div class="flex items-center gap-3 mb-4">
+                  <span class="px-3 py-1 text-xs font-medium bg-dark-700 text-gray-300 rounded-full">{t('exp.ez.period')}</span>
+                </div>
+                <h3 class="font-heading text-xl font-bold text-white mb-1">{t('exp.ez.company')}</h3>
+                <p class="text-lime font-medium mb-4">{t('exp.ez.role')}</p>
+                <ul class="space-y-2">
+                  <li class="flex items-start gap-2 text-sm text-gray-300">
+                    <span class="w-1.5 h-1.5 bg-lime rounded-full mt-1.5 flex-shrink-0"></span>
+                    {t('exp.ez.desc1')}
+                  </li>
+                  <li class="flex items-start gap-2 text-sm text-gray-300">
+                    <span class="w-1.5 h-1.5 bg-lime rounded-full mt-1.5 flex-shrink-0"></span>
+                    {t('exp.ez.desc2')}
+                  </li>
+                  <li class="flex items-start gap-2 text-sm text-gray-300">
+                    <span class="w-1.5 h-1.5 bg-lime rounded-full mt-1.5 flex-shrink-0"></span>
+                    {t('exp.ez.desc3')}
+                  </li>
+                  <li class="flex items-start gap-2 text-sm text-gray-300">
+                    <span class="w-1.5 h-1.5 bg-lime rounded-full mt-1.5 flex-shrink-0"></span>
+                    {t('exp.ez.desc4')}
+                  </li>
+                  <li class="flex items-start gap-2 text-sm text-gray-300">
+                    <span class="w-1.5 h-1.5 bg-lime rounded-full mt-1.5 flex-shrink-0"></span>
+                    {t('exp.ez.desc5')}
+                  </li>
+                  <li class="flex items-start gap-2 text-sm text-gray-300">
+                    <span class="w-1.5 h-1.5 bg-lime rounded-full mt-1.5 flex-shrink-0"></span>
+                    {t('exp.ez.desc6')}
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ════════════════════════════════════════════════════════════════════
+       SKILLS GRID
+       ════════════════════════════════════════════════════════════════════ -->
+  <section class="py-24 sm:py-32 relative">
+    <div class="absolute inset-0 pointer-events-none">
+      <div class="absolute top-0 right-0 w-96 h-96 bg-lime/3 rounded-full blur-3xl"></div>
+    </div>
+
+    <div class="relative z-10 max-w-7xl mx-auto px-6 sm:px-8">
+      <div class="text-center mb-16">
+        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-lime/10 border border-lime/20 mb-6 reveal-scale">
+          <span class="w-1.5 h-1.5 bg-lime rounded-full"></span>
+          <span class="text-xs font-medium text-lime uppercase tracking-wider">{t('about.skills.title')}</span>
+        </div>
+        <h2 class="font-heading text-3xl sm:text-4xl font-bold reveal-up">
+          <span class="bg-gradient-to-r from-white to-gray-300 bg-clip-text text-transparent">{t('about.skills.title')}</span>
+        </h2>
+      </div>
+
+      <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6 stagger-container">
+        {skillGroups.map((group) => (
+          <div class="stagger-item p-8 rounded-2xl bg-dark-800 border border-dark-600 hover:border-lime/30 transition-all duration-500 hover:-translate-y-1">
+            <h3 class="font-heading text-lg font-semibold text-lime mb-6">{group.label[lang]}</h3>
+            <ul class="space-y-3">
+              {group.items.map((item) => (
+                <li class="flex items-start gap-2 text-sm text-gray-300">
+                  <svg class="w-4 h-4 text-lime mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4"/></svg>
+                  {item}
+                </li>
+              ))}
+            </ul>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- ════════════════════════════════════════════════════════════════════
+       CERTIFICATES
+       ════════════════════════════════════════════════════════════════════ -->
+  <section class="py-24 sm:py-32 relative">
+    <div class="max-w-7xl mx-auto px-6 sm:px-8">
+      <div class="text-center mb-16">
+        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-lime/10 border border-lime/20 mb-6 reveal-scale">
+          <span class="w-1.5 h-1.5 bg-lime rounded-full"></span>
+          <span class="text-xs font-medium text-lime uppercase tracking-wider">{t('about.certificates.title')}</span>
+        </div>
+        <h2 class="font-heading text-3xl sm:text-4xl font-bold reveal-up">
+          <span class="bg-gradient-to-r from-white to-gray-300 bg-clip-text text-transparent">{t('about.certificates.title')}</span>
+        </h2>
+      </div>
+
+      <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 stagger-container">
+        {certificates.map((cert) => (
+          <div class="stagger-item group p-6 rounded-2xl bg-dark-800 border border-dark-600 hover:border-lime/30 transition-all duration-500 hover:-translate-y-1">
+            <!-- Certificate image placeholder -->
+            <div class="relative h-40 rounded-xl bg-dark-700 overflow-hidden mb-4">
+              <div class="absolute inset-0 bg-gradient-to-br from-lime/5 to-transparent"></div>
+              <div class="absolute inset-0 flex items-center justify-center">
+                <svg class="w-12 h-12 text-dark-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M4.26 10.147a60.438 60.438 0 00-.491 6.347A48.62 48.62 0 0112 20.904a48.62 48.62 0 018.232-4.41 60.46 60.46 0 00-.491-6.347m-15.482 0a50.636 50.636 0 00-2.658-.813A59.906 59.906 0 0112 3.493a59.903 59.903 0 0110.399 5.84c-.896.248-1.783.52-2.658.814m-15.482 0A50.717 50.717 0 0112 13.489a50.702 50.702 0 017.74-3.342M6.75 15a.75.75 0 100-1.5.75.75 0 000 1.5zm0 0v-3.675A55.378 55.378 0 0112 8.443m-7.007 11.55A5.981 5.981 0 006.75 15.75v-1.5"/></svg>
+              </div>
+            </div>
+            <div class="flex items-start gap-3">
+              <div class="w-8 h-8 rounded-lg bg-lime/10 flex items-center justify-center flex-shrink-0 mt-0.5">
+                <svg class="w-4 h-4 text-lime" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>
+              </div>
+              <p class="text-sm font-medium text-white group-hover:text-lime transition-colors">{t(cert.key)}</p>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- ════════════════════════════════════════════════════════════════════
+       LANGUAGES
+       ════════════════════════════════════════════════════════════════════ -->
+  <section class="py-24 sm:py-32 relative">
+    <div class="max-w-3xl mx-auto px-6 sm:px-8">
+      <div class="text-center mb-16">
+        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-lime/10 border border-lime/20 mb-6 reveal-scale">
+          <span class="w-1.5 h-1.5 bg-lime rounded-full"></span>
+          <span class="text-xs font-medium text-lime uppercase tracking-wider">{t('about.languages.title')}</span>
+        </div>
+        <h2 class="font-heading text-3xl sm:text-4xl font-bold reveal-up">
+          <span class="bg-gradient-to-r from-white to-gray-300 bg-clip-text text-transparent">{t('about.languages.title')}</span>
+        </h2>
+      </div>
+
+      <div class="space-y-6 stagger-container">
+        {spokenLanguages.map((language) => (
+          <div class="stagger-item p-6 rounded-2xl bg-dark-800 border border-dark-600">
+            <div class="flex items-center justify-between mb-3">
+              <span class="font-medium text-white">{t(language.key)}</span>
+              <span class="text-sm text-lime">{language.level}%</span>
+            </div>
+            <div class="w-full h-2 bg-dark-700 rounded-full overflow-hidden">
+              <div class="h-full bg-gradient-to-r from-lime to-lime-light rounded-full transition-all duration-1000" style={`width: ${language.level}%`}></div>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- ════════════════════════════════════════════════════════════════════
+       BOTTOM CTA
+       ════════════════════════════════════════════════════════════════════ -->
+  <section class="py-24 sm:py-32 relative">
+    <div class="absolute inset-0 pointer-events-none">
+      <div class="absolute bottom-0 left-1/2 -translate-x-1/2 w-[800px] h-[400px] bg-lime/5 rounded-full blur-3xl"></div>
+    </div>
+    <div class="relative z-10 max-w-4xl mx-auto px-6 sm:px-8 text-center">
+      <div class="p-12 sm:p-16 rounded-3xl bg-dark-800 border border-dark-600 relative overflow-hidden reveal-up">
+        <div class="absolute top-0 left-0 w-24 h-24 border-t-2 border-l-2 border-lime/20 rounded-tl-3xl"></div>
+        <div class="absolute bottom-0 right-0 w-24 h-24 border-b-2 border-r-2 border-lime/20 rounded-br-3xl"></div>
+        <h2 class="font-heading text-3xl sm:text-4xl font-bold mb-6">
+          <span class="bg-gradient-to-r from-white to-gray-300 bg-clip-text text-transparent">{t('contact.title')}</span>
+        </h2>
+        <p class="text-gray-300 mb-10 max-w-xl mx-auto text-lg">{t('contact.subtitle')}</p>
+        <a href={getLocalizedPath(lang, '/contact/')} class="group relative inline-flex items-center gap-2 px-10 py-5 bg-lime text-dark-900 font-semibold rounded-xl hover:bg-lime-light transition-all duration-300 hover:shadow-[0_0_40px_rgba(200,217,38,0.3)] text-lg">
+          <span>{t('hero.cta.secondary')}</span>
+          <svg class="w-5 h-5 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
+        </a>
+      </div>
+    </div>
+  </section>
+
+</BaseLayout>

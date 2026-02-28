@@ -22,7 +22,9 @@
   --color-gray-500: #666666;
 }
 
-/* Base styles */
+/* ═══════════════════════════════════════════
+   BASE
+   ═══════════════════════════════════════════ */
 html {
   scroll-behavior: smooth;
   -webkit-font-smoothing: antialiased;
@@ -40,46 +42,182 @@ h1, h2, h3, h4, h5, h6 {
   font-family: var(--font-heading);
 }
 
-/* Selection */
 ::selection {
   background-color: var(--color-lime);
   color: #000;
 }
 
-/* Scrollbar */
-::-webkit-scrollbar {
+/* ═══════════════════════════════════════════
+   SCROLLBAR
+   ═══════════════════════════════════════════ */
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: var(--color-dark-900); }
+::-webkit-scrollbar-thumb { background: var(--color-dark-500); border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: var(--color-lime); }
+
+section[id] { scroll-margin-top: 80px; }
+
+/* ═══════════════════════════════════════════
+   REVEAL ANIMATIONS
+   ═══════════════════════════════════════════ */
+.reveal-up { opacity: 0; transform: translateY(80px); }
+.reveal-left { opacity: 0; transform: translateX(-80px); }
+.reveal-right { opacity: 0; transform: translateX(80px); }
+.reveal-scale { opacity: 0; transform: scale(0.85); }
+.reveal-rotate { opacity: 0; transform: rotate(-3deg) translateY(40px); }
+
+/* ═══════════════════════════════════════════
+   MARQUEE
+   ═══════════════════════════════════════════ */
+@keyframes marquee {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+@keyframes marquee-reverse {
+  0% { transform: translateX(-50%); }
+  100% { transform: translateX(0); }
+}
+.marquee-track {
+  animation: marquee 30s linear infinite;
+}
+.marquee-track-reverse {
+  animation: marquee-reverse 30s linear infinite;
+}
+.marquee-container:hover .marquee-track,
+.marquee-container:hover .marquee-track-reverse {
+  animation-play-state: paused;
+}
+
+/* ═══════════════════════════════════════════
+   TEXT STROKE (for outline text effect)
+   ═══════════════════════════════════════════ */
+.text-stroke {
+  -webkit-text-stroke: 2px var(--color-lime);
+  color: transparent;
+}
+.text-stroke-white {
+  -webkit-text-stroke: 1.5px white;
+  color: transparent;
+}
+
+/* ═══════════════════════════════════════════
+   MAGNETIC BUTTON
+   ═══════════════════════════════════════════ */
+.magnetic-btn {
+  position: relative;
+  overflow: hidden;
+}
+.magnetic-btn::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: rgba(255,255,255,0.1);
+  transform: translateY(100%);
+  transition: transform 0.4s cubic-bezier(0.4, 0, 0, 1);
+}
+.magnetic-btn:hover::before {
+  transform: translateY(0);
+}
+
+/* ═══════════════════════════════════════════
+   HORIZONTAL SCROLL LINE
+   ═══════════════════════════════════════════ */
+.line-draw {
+  background: linear-gradient(90deg, var(--color-lime) 0%, transparent 100%);
+  height: 1px;
+  transform-origin: left;
+  transform: scaleX(0);
+}
+
+/* ═══════════════════════════════════════════
+   GLASS CARD
+   ═══════════════════════════════════════════ */
+.glass-card {
+  background: rgba(17, 17, 17, 0.6);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(200, 217, 38, 0.08);
+}
+.glass-card:hover {
+  border-color: rgba(200, 217, 38, 0.25);
+  background: rgba(17, 17, 17, 0.8);
+}
+
+/* ═══════════════════════════════════════════
+   SPLIT TEXT HOVER
+   ═══════════════════════════════════════════ */
+.split-hover {
+  position: relative;
+  overflow: hidden;
+}
+.split-hover::after {
+  content: attr(data-text);
+  position: absolute;
+  top: 0;
+  left: 0;
+  color: var(--color-lime);
+  clip-path: inset(0 100% 0 0);
+  transition: clip-path 0.5s cubic-bezier(0.4, 0, 0, 1);
+}
+.split-hover:hover::after {
+  clip-path: inset(0 0 0 0);
+}
+
+/* ═══════════════════════════════════════════
+   NOISE OVERLAY
+   ═══════════════════════════════════════════ */
+.noise-bg::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
+  pointer-events: none;
+  z-index: 1000;
+  opacity: 0.4;
+}
+
+/* ═══════════════════════════════════════════
+   CUSTOM CURSOR DOT
+   ═══════════════════════════════════════════ */
+.cursor-dot {
   width: 8px;
-}
-::-webkit-scrollbar-track {
-  background: var(--color-dark-900);
-}
-::-webkit-scrollbar-thumb {
-  background: var(--color-dark-500);
-  border-radius: 4px;
-}
-::-webkit-scrollbar-thumb:hover {
+  height: 8px;
   background: var(--color-lime);
+  border-radius: 50%;
+  position: fixed;
+  pointer-events: none;
+  z-index: 9999;
+  transition: transform 0.15s ease;
+  mix-blend-mode: difference;
+}
+.cursor-ring {
+  width: 40px;
+  height: 40px;
+  border: 1.5px solid var(--color-lime);
+  border-radius: 50%;
+  position: fixed;
+  pointer-events: none;
+  z-index: 9998;
+  transition: transform 0.3s ease, width 0.3s ease, height 0.3s ease;
+  mix-blend-mode: difference;
 }
 
-/* Smooth scroll anchor offset for fixed header */
-section[id] {
-  scroll-margin-top: 80px;
+/* ═══════════════════════════════════════════
+   IMAGE REVEAL
+   ═══════════════════════════════════════════ */
+.img-reveal {
+  clip-path: inset(100% 0 0 0);
+  transition: clip-path 1s cubic-bezier(0.77, 0, 0.175, 1);
+}
+.img-reveal.revealed {
+  clip-path: inset(0 0 0 0);
 }
 
-/* Reveal animation base classes */
-.reveal-up {
-  opacity: 0;
-  transform: translateY(60px);
-}
-.reveal-left {
-  opacity: 0;
-  transform: translateX(-60px);
-}
-.reveal-right {
-  opacity: 0;
-  transform: translateX(60px);
-}
-.reveal-scale {
-  opacity: 0;
-  transform: scale(0.8);
+/* ═══════════════════════════════════════════
+   NUMBER COUNTER LARGE
+   ═══════════════════════════════════════════ */
+.big-number {
+  font-size: clamp(4rem, 10vw, 10rem);
+  font-weight: 700;
+  line-height: 1;
+  font-family: var(--font-heading);
 }

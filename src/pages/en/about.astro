@@ -1,0 +1,184 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { getLangFromUrl, useTranslations, getLocalizedPath } from '../../i18n/utils';
+import { skillGroups } from '../../data/skills';
+
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+
+const certificates = [
+  { key: 'cert.foundations' as const, img: '/images/certificates/2222.png' },
+  { key: 'cert.checkout' as const, img: '/images/certificates/333.png' },
+  { key: 'cert.storefront' as const, img: '/images/certificates/44.png' },
+  { key: 'cert.liquid' as const, img: '/images/certificates/55.png' },
+  { key: 'cert.themes' as const, img: '/images/certificates/66.png' },
+  { key: 'cert.marketing' as const, img: '/images/certificates/777.png' },
+];
+---
+
+<BaseLayout title={t('meta.about.title')} description={t('meta.about.description')}>
+
+  <section class="relative pt-32 pb-20 sm:pt-40 sm:pb-28 overflow-hidden">
+    <div class="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_rgba(200,217,38,0.06)_0%,_transparent_50%)]"></div>
+    <div class="relative z-10 max-w-[1400px] mx-auto px-6 sm:px-8 lg:px-12">
+      <div class="flex items-center gap-3 mb-6 reveal-up">
+        <div class="w-12 h-[2px] bg-lime"></div>
+        <span class="text-[13px] uppercase tracking-[0.3em] text-lime font-medium">{t('about.tag')}</span>
+      </div>
+      <h1 class="font-heading text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-bold text-white leading-[0.95] mb-8 reveal-up">{t('about.tag')}</h1>
+    </div>
+  </section>
+
+  <section class="py-20 sm:py-28">
+    <div class="max-w-[1400px] mx-auto px-6 sm:px-8 lg:px-12">
+      <div class="grid lg:grid-cols-12 gap-12 lg:gap-20">
+        <div class="lg:col-span-5 reveal-left">
+          <div class="relative">
+            <div class="aspect-[4/5] rounded-3xl bg-dark-800 border border-dark-700 overflow-hidden relative">
+              <div class="absolute inset-0 bg-gradient-to-br from-lime/10 to-transparent"></div>
+              <div class="absolute inset-0 flex flex-col items-center justify-center gap-6">
+                <img src="/images/ahk-logo.png" alt="AHK Logo" class="w-28 h-28 rounded-2xl" />
+                <div class="text-center">
+                  <h3 class="font-heading text-3xl font-bold text-white">AHK</h3>
+                  <p class="text-lime text-sm uppercase tracking-[0.2em] mt-1">Shopify Developer</p>
+                </div>
+              </div>
+            </div>
+            <div class="absolute -bottom-4 -right-4 w-32 h-32 border-2 border-lime/20 rounded-3xl -z-10"></div>
+            <div class="absolute -top-4 -left-4 w-24 h-24 bg-lime/5 rounded-3xl -z-10"></div>
+          </div>
+        </div>
+        <div class="lg:col-span-7 reveal-right">
+          <h2 class="font-heading text-3xl sm:text-4xl font-bold text-white mb-6">{t('about.title')}</h2>
+          <p class="text-lg text-gray-300 leading-relaxed mb-6">{t('about.intro')}</p>
+          <p class="text-gray-300 leading-relaxed mb-10">{t('about.description')}</p>
+          <div class="grid grid-cols-3 gap-4 mb-10">
+            <div class="p-5 rounded-2xl bg-dark-800 border border-dark-700 text-center">
+              <div class="text-3xl font-bold font-heading text-lime">3+</div>
+              <p class="text-xs text-gray-300 mt-1 uppercase tracking-wider">{t('hero.stats.experience')}</p>
+            </div>
+            <div class="p-5 rounded-2xl bg-dark-800 border border-dark-700 text-center">
+              <div class="text-3xl font-bold font-heading text-lime">50+</div>
+              <p class="text-xs text-gray-300 mt-1 uppercase tracking-wider">{t('hero.stats.projects')}</p>
+            </div>
+            <div class="p-5 rounded-2xl bg-dark-800 border border-dark-700 text-center">
+              <div class="text-3xl font-bold font-heading text-lime">30+</div>
+              <p class="text-xs text-gray-300 mt-1 uppercase tracking-wider">{t('hero.stats.clients')}</p>
+            </div>
+          </div>
+          <div>
+            <h3 class="font-heading text-sm uppercase tracking-[0.2em] text-lime mb-4">{t('about.languages.title')}</h3>
+            <div class="flex flex-wrap gap-3">
+              <span class="px-4 py-2 rounded-full bg-dark-800 border border-dark-700 text-sm text-gray-300">{t('about.lang.turkish')}</span>
+              <span class="px-4 py-2 rounded-full bg-dark-800 border border-dark-700 text-sm text-gray-300">{t('about.lang.english')}</span>
+              <span class="px-4 py-2 rounded-full bg-dark-800 border border-dark-700 text-sm text-gray-300">{t('about.lang.german')}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="relative py-28 sm:py-32 bg-lime overflow-hidden">
+    <div class="absolute inset-0 bg-[linear-gradient(135deg,rgba(0,0,0,0.02)_25%,transparent_25%,transparent_50%,rgba(0,0,0,0.02)_50%,rgba(0,0,0,0.02)_75%,transparent_75%)] bg-[length:60px_60px]"></div>
+    <div class="relative z-10 max-w-[1400px] mx-auto px-6 sm:px-8 lg:px-12">
+      <div class="flex items-center gap-3 mb-4 reveal-up">
+        <div class="w-12 h-[2px] bg-dark-900"></div>
+        <span class="text-[13px] uppercase tracking-[0.3em] text-dark-900/60 font-medium">{t('about.experience.title')}</span>
+      </div>
+      <h2 class="font-heading text-4xl sm:text-5xl md:text-6xl font-bold text-dark-900 mb-16 reveal-up">{t('about.experience.title')}</h2>
+      <div class="space-y-8 stagger-container">
+        <div class="stagger-item bg-dark-900 rounded-3xl p-8 sm:p-10 lg:p-12">
+          <div class="flex flex-col lg:flex-row lg:items-start lg:justify-between gap-4 mb-6">
+            <div>
+              <h3 class="font-heading text-2xl sm:text-3xl font-bold text-white">{t('exp.vapor.company')}</h3>
+              <p class="text-lime font-medium mt-1">{t('exp.vapor.role')}</p>
+            </div>
+            <span class="text-sm text-gray-300 bg-dark-800 px-4 py-2 rounded-full whitespace-nowrap">{t('exp.vapor.period')}</span>
+          </div>
+          <p class="text-lime/70 text-sm font-medium mb-4">{t('exp.vapor.project')}</p>
+          <ul class="space-y-3">
+            <li class="flex gap-3 text-gray-300"><span class="w-1.5 h-1.5 rounded-full bg-lime mt-2 shrink-0"></span>{t('exp.vapor.desc1')}</li>
+            <li class="flex gap-3 text-gray-300"><span class="w-1.5 h-1.5 rounded-full bg-lime mt-2 shrink-0"></span>{t('exp.vapor.desc2')}</li>
+            <li class="flex gap-3 text-gray-300"><span class="w-1.5 h-1.5 rounded-full bg-lime mt-2 shrink-0"></span>{t('exp.vapor.desc3')}</li>
+            <li class="flex gap-3 text-gray-300"><span class="w-1.5 h-1.5 rounded-full bg-lime mt-2 shrink-0"></span>{t('exp.vapor.desc4')}</li>
+            <li class="flex gap-3 text-gray-300"><span class="w-1.5 h-1.5 rounded-full bg-lime mt-2 shrink-0"></span>{t('exp.vapor.desc5')}</li>
+          </ul>
+          <div class="mt-6 pt-6 border-t border-dark-700">
+            <p class="text-xs text-gray-500 uppercase tracking-wider mb-2">Tech Stack</p>
+            <p class="text-sm text-gray-300">{t('exp.vapor.tech')}</p>
+          </div>
+        </div>
+        <div class="stagger-item bg-dark-900 rounded-3xl p-8 sm:p-10 lg:p-12">
+          <div class="flex flex-col lg:flex-row lg:items-start lg:justify-between gap-4 mb-6">
+            <div>
+              <h3 class="font-heading text-2xl sm:text-3xl font-bold text-white">{t('exp.ez.company')}</h3>
+              <p class="text-lime font-medium mt-1">{t('exp.ez.role')}</p>
+            </div>
+            <span class="text-sm text-gray-300 bg-dark-800 px-4 py-2 rounded-full whitespace-nowrap">{t('exp.ez.period')}</span>
+          </div>
+          <ul class="space-y-3">
+            <li class="flex gap-3 text-gray-300"><span class="w-1.5 h-1.5 rounded-full bg-lime mt-2 shrink-0"></span>{t('exp.ez.desc1')}</li>
+            <li class="flex gap-3 text-gray-300"><span class="w-1.5 h-1.5 rounded-full bg-lime mt-2 shrink-0"></span>{t('exp.ez.desc2')}</li>
+            <li class="flex gap-3 text-gray-300"><span class="w-1.5 h-1.5 rounded-full bg-lime mt-2 shrink-0"></span>{t('exp.ez.desc3')}</li>
+            <li class="flex gap-3 text-gray-300"><span class="w-1.5 h-1.5 rounded-full bg-lime mt-2 shrink-0"></span>{t('exp.ez.desc4')}</li>
+            <li class="flex gap-3 text-gray-300"><span class="w-1.5 h-1.5 rounded-full bg-lime mt-2 shrink-0"></span>{t('exp.ez.desc5')}</li>
+            <li class="flex gap-3 text-gray-300"><span class="w-1.5 h-1.5 rounded-full bg-lime mt-2 shrink-0"></span>{t('exp.ez.desc6')}</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="py-28 sm:py-36">
+    <div class="max-w-[1400px] mx-auto px-6 sm:px-8 lg:px-12">
+      <div class="flex items-center gap-3 mb-4 reveal-up">
+        <div class="w-12 h-[2px] bg-lime"></div>
+        <span class="text-[13px] uppercase tracking-[0.3em] text-lime font-medium">{t('about.skills.title')}</span>
+      </div>
+      <h2 class="font-heading text-4xl sm:text-5xl md:text-6xl font-bold text-white mb-16 reveal-up">{t('about.skills.title')}</h2>
+      <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-6 stagger-container">
+        {skillGroups.map((group) => (
+          <div class="stagger-item p-8 rounded-3xl bg-dark-800 border border-dark-700 hover:border-lime/30 transition-all duration-500 group">
+            <h3 class="font-heading text-xl font-bold text-lime mb-6">{group.label[lang]}</h3>
+            <ul class="space-y-3">
+              {group.items.map((item) => (
+                <li class="flex items-start gap-2 text-sm text-gray-300">
+                  <svg class="w-4 h-4 text-lime shrink-0 mt-0.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5"/></svg>
+                  {item}
+                </li>
+              ))}
+            </ul>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="py-28 sm:py-36 border-t border-dark-700">
+    <div class="max-w-[1400px] mx-auto px-6 sm:px-8 lg:px-12">
+      <div class="flex items-center gap-3 mb-4 reveal-up">
+        <div class="w-12 h-[2px] bg-lime"></div>
+        <span class="text-[13px] uppercase tracking-[0.3em] text-lime font-medium">{t('about.certificates.title')}</span>
+      </div>
+      <h2 class="font-heading text-4xl sm:text-5xl md:text-6xl font-bold text-white mb-16 reveal-up">{t('about.certificates.title')}</h2>
+      <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 stagger-container">
+        {certificates.map(({ key, img }) => (
+          <div class="stagger-item group rounded-3xl overflow-hidden bg-dark-800 border border-dark-700 hover:border-lime/30 transition-all duration-500">
+            <div class="aspect-[4/3] overflow-hidden">
+              <img src={img} alt={t(key)} class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" loading="lazy" />
+            </div>
+            <div class="p-6">
+              <div class="flex items-center gap-2 mb-2">
+                <svg class="w-5 h-5 text-lime shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12c0 1.268-.63 2.39-1.593 3.068a3.745 3.745 0 01-1.043 3.296 3.745 3.745 0 01-3.296 1.043A3.745 3.745 0 0112 21c-1.268 0-2.39-.63-3.068-1.593a3.746 3.746 0 01-3.296-1.043 3.745 3.745 0 01-1.043-3.296A3.745 3.745 0 013 12c0-1.268.63-2.39 1.593-3.068a3.745 3.745 0 011.043-3.296 3.746 3.746 0 013.296-1.043A3.746 3.746 0 0112 3c1.268 0 2.39.63 3.068 1.593a3.746 3.746 0 013.296 1.043 3.746 3.746 0 011.043 3.296A3.745 3.745 0 0121 12z"/></svg>
+                <span class="text-xs text-lime uppercase tracking-wider font-medium">Shopify</span>
+              </div>
+              <h3 class="font-heading text-sm font-semibold text-white leading-snug">{t(key)}</h3>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+</BaseLayout>
